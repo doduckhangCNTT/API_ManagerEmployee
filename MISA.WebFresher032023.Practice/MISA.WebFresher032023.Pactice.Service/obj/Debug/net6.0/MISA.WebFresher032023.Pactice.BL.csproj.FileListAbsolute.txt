@@ -1,0 +1,17 @@
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.deps.json
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.dll
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.pdb
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Practice.Common.dll
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Practice.DL.dll
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Practice.Common.pdb
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\bin\Debug\net6.0\MISA.WebFresher032023.Practice.DL.pdb
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.csproj.AssemblyReference.cache
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.AssemblyInfoInputs.cache
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.AssemblyInfo.cs
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.csproj.CoreCompileInputs.cache
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.csproj.CopyComplete
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.dll
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\refint\MISA.WebFresher032023.Pactice.BL.dll
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\MISA.WebFresher032023.Pactice.BL.pdb
+D:\Work\Misa\Practice\AspNetCore\PracticeAPI\MISA.WebFresher032023.Practice\MISA.WebFresher032023.Pactice.Service\obj\Debug\net6.0\ref\MISA.WebFresher032023.Pactice.BL.dll
