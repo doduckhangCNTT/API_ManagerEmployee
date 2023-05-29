@@ -18,7 +18,7 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
      - Kế thừa lớp Base (chứa những phương thức dùng chung), và những phương thức dùng riêng (IEmployeeService)
      - Thực hiện khai báo các kiểu cho lớp abstract Base (Employee, EmployeeDto...)
      */
-    public class EmployeeService : BaseService<Employee, EmployeeDto, EmployeeUpdateDto>, IEmployeeService
+    public class EmployeeService : BaseService<Employee, EmployeeDto, EmployeeUpdateDto, EmployeeCreateDto>, IEmployeeService
     {
         #region Field
         // Khai báo kết nối đến DL

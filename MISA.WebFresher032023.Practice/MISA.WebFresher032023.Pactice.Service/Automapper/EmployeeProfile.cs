@@ -18,6 +18,8 @@ namespace MISA.WebFresher032023.Pactice.BL.Automapper
             khai báo trong EmployeeDTO thì không được ánh xạ vào)
              */
             CreateMap<Employee, EmployeeDto>();
+            CreateMap<EmployeeDto, Employee>();
+            CreateMap<FilterEntity<Employee>, FilterEntity<EmployeeDto>>();
             CreateMap<EmployeeCreateDto, Employee>();
             CreateMap<EmployeeUpdateDto, Employee>();
         }

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
 {
-    public interface IBaseService<IEntity, IEntityDto, TEntityUpdateDto>
+    public interface IBaseService<TEntityDto, TEntityUpdateDto, TEntityCreateDto>
     {
         /// <summary>
         /// - Thực hiện lấy thông tin entity theo id
         /// </summary>
         /// <param name="id">Mã entity</param>
-        /// <returns>IEntityDto</returns>
+        /// <returns>TEntityDto</returns>
         /// Create By: DDKhang (24/5/2023)
-        Task<IEntityDto> GetAsync(Guid id);
+        Task<TEntityDto> GetAsync(Guid id);
 
         /// <summary>
         /// - Thực hiện thêm thông tin 
@@ -24,7 +24,7 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
         /// <param name="entity">Thông tin thực thể</param>
         /// <returns>Số bản ghi được thêm</returns>
         /// Create By: DDKhang (24/5/2023)
-        Task<int> CreateAsync(IEntity entity);
+        Task<int> CreateAsync(TEntityCreateDto entity);
 
         /// <summary>
         /// - Thực hiện xóa entity theo id
@@ -40,7 +40,7 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
         /// </summary>
         /// <param name="entity">Thông tin thực thể mới</param>
         /// <returns>Số bản ghi được cập nhật</returns>
-        Task<int> UpdateAsync(IEntity entity);
+        Task<int> UpdateAsync(Guid entityId, TEntityUpdateDto entity);
 
         /// <summary>
         /// - Thực hiện lọc thông tin của entity, phân trang
@@ -48,9 +48,9 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
         /// <param name="pageSize">Số lượng entity trên trang</param>
         /// <param name="pageNumber">Trang hiện tại</param>
         /// <param name="entityFilter">Gía trị lọc</param>
-        /// <returns>IEntity</returns>
+        /// <returns>TEntity</returns>
         /// Create By: DDKhang (24/5/2023)
-        Task<FilterEntity<IEntity>> EntitysFilterAsync(int? pageSize, int? pageNumber, string? entityFilter);
+        Task<FilterEntity<TEntityDto>> EntitysFilterAsync(int? pageSize, int? pageNumber, string? entityFilter);
 
         /// <summary>
         /// - Tạo mã code mới cho entity
@@ -58,5 +58,21 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
         /// <returns>String</returns>
         /// Create By: DDKhang (24/5/2023)
         Task<string> NewEntityCode();
+
+        /// <summary>
+        /// - Thực hiện kiểm tra sự tồn tại của entity
+        /// </summary>
+        /// <param name="entity">Thông tin thực thể</param>
+        /// <returns>TEntityDto</returns>
+        /// CreatedBy: DDKhang (27/5/2023)
+        Task<TEntityDto> CheckEntityExist(Guid entityId);
+
+        /// <summary>
+        /// - Xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="listEntityId">Danh sách mã bản ghi được nối bằng ","</param>
+        /// <returns>Số bản ghi được xóa</returns>
+        /// CreatedBy: DDKhang (27/5/2023)
+        Task<int> DeleteMutilEntityAsync(string listEntityId);
     }
 }

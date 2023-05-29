@@ -13,15 +13,21 @@ namespace MISA.WebFresher032023.Practice.Middlewares
             _next = next;
         }
 
+        /// <summary>
+        /// - Hàm sẽ được trong tất cả các trường hợp 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        /// CreatedBy: DDKhang (28/5/2023)
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next(context);
+                await _next(context); // Tiếp tục đến các nhiệm vụ tiếp theo
             }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex); // Xảy ra lỗi
             }
         }
 
@@ -52,7 +58,7 @@ namespace MISA.WebFresher032023.Practice.Middlewares
                 }.ToString() ?? ""
                 );
             }
-            else if (exception is InternalException)
+            else
             {
                 context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
@@ -66,7 +72,6 @@ namespace MISA.WebFresher032023.Practice.Middlewares
                     MoreInfor = exception.HelpLink
                 }.ToString() ?? ""
                 );
-
             }
         }
     }

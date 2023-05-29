@@ -14,7 +14,7 @@ namespace MISA.WebFresher032023.Practice.Controllers
 {
     [Route("api/v1/[controller]")]
     //[ApiController]
-    public class EmployeesController : BaseController<Employee, EmployeeDto, EmployeeUpdateDto>
+    public class EmployeesController : BaseController<Employee, EmployeeDto, EmployeeUpdateDto, EmployeeCreateDto>
     {
         #region Feild
         //private readonly IConfiguration _configuration;
@@ -253,7 +253,7 @@ namespace MISA.WebFresher032023.Practice.Controllers
         //    }
         //}
 
-        
+
         //[HttpGet("NewEmployeeCode")]
         //public async Task<IActionResult> NewEmployeeCode()
         //{
@@ -362,38 +362,31 @@ namespace MISA.WebFresher032023.Practice.Controllers
         /// <param name="employee"></param>
         /// <returns></returns>
         /// Created By: DDKhang (24/5/2023)
-        [HttpPut]
-        public override async Task<IActionResult> UpdateAsync(Employee employee)
-        {
-            try
-            {
-                if (employee.EmployeeId != Guid.Empty)
-                {
-                    // Thực hiện validate dữ liệu
+        //[HttpPut]
+        //public override async Task<IActionResult> UpdateAsync(EmployeeUpdateDto employee)
+        //{
+        //    try
+        //    {
+        //        // Thực hiện validate dữ liệu
 
-                    // Kiểm tra nhân viên có tồn tại
-                    Employee e = CheckEmployeeExist(employee.EmployeeId);
+        //        // Kiểm tra nhân viên có tồn tại
+        //        EmployeeDto employeeDto = await _baseService.CheckEntityExist(employee.EmployeeId);
 
-                    if (e != null)
-                    {
-                        int qualityRecordUpdate = await _baseService.UpdateAsync(employee);
-                        return Ok(qualityRecordUpdate);
-                    }
-                    else
-                    {
-                        return BadRequest(ResourceVN.Validate_EmployeeNotFound);
-                    }
-                }
-                else
-                {
-                    return BadRequest(ResourceVN.Validate_EmployeeNull);
-                }
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex, ResourceVN.Error_Exception);
-            }
-        }
+        //        if (employeeDto != null)
+        //        {
+        //            int qualityRecordUpdate = await _baseService.UpdateAsync(employee);
+        //            return Ok(qualityRecordUpdate);
+        //        }
+        //        else
+        //        {
+        //            return BadRequest(ResourceVN.Validate_EmployeeNotFound);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return HandleException(ex, ResourceVN.Error_Exception);
+        //    }
+        //}
 
         /// <summary>
         /// - Xóa nhân viên theo id

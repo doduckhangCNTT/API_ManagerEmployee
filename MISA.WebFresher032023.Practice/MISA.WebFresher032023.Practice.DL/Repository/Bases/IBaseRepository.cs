@@ -69,5 +69,21 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
         /// </summary>
         /// <returns>String</returns>
         Task<string> NewEntityCode();
+
+        /// <summary>
+        /// - Thực hiện kiểm tra sự tồn tại của entity thông qua id
+        /// </summary>
+        /// <param name="entityId">Mã thực thể</param>
+        /// <returns></returns>
+        /// Created By: DDKhang (27/5/2023)
+        Task<TEntity> CheckEntityExist(Guid entityId);
+
+        /// <summary>
+        /// - Xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="listEntityId">Danh sách mã bản ghi được nối bằng ","</param>
+        /// <returns>Số bản ghi được xóa</returns>
+        /// CreatedBy: DDKhang (27/5/2023)
+        Task<int> DeleteMutilEntityAsync(string listEntityId);
     }
 }

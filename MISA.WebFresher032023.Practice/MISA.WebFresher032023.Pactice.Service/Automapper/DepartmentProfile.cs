@@ -18,8 +18,10 @@ namespace MISA.WebFresher032023.Pactice.BL.Automapper
         public DepartmentProfile()
         {
             CreateMap<Department, DepartmentDTO>();
+            CreateMap<DepartmentDTO, Department>();
             CreateMap<DepartmentCreateDTO, Department>();
             CreateMap<DepartmentUpdateDTO, Department>();
+            CreateMap<FilterEntity<Department>, FilterEntity<DepartmentDTO>>();
         }
     }
 }

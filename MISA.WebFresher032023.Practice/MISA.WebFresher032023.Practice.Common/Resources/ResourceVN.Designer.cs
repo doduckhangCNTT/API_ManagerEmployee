@@ -79,6 +79,33 @@ namespace MISA.WebFresher032023.Practice.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nữ.
+        /// </summary>
+        public static string Gender_Femal {
+            get {
+                return ResourceManager.GetString("Gender_Femal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nam.
+        /// </summary>
+        public static string Gender_Male {
+            get {
+                return ResourceManager.GetString("Gender_Male", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Không xác định.
+        /// </summary>
+        public static string Gender_Other {
+            get {
+                return ResourceManager.GetString("Gender_Other", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Xóa nhân viên thành công.
         /// </summary>
         public static string Notification_Delete_Success {
@@ -88,11 +115,38 @@ namespace MISA.WebFresher032023.Practice.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Cần cung cấp mã phòng ban.
         /// </summary>
-        public static string String1 {
+        public static string Validate_DepartmentCodeRequired {
             get {
-                return ResourceManager.GetString("String1", resourceCulture);
+                return ResourceManager.GetString("Validate_DepartmentCodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email chưa đúng định dạng.
+        /// </summary>
+        public static string Validate_Email {
+            get {
+                return ResourceManager.GetString("Validate_Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cần cung cấp mã nhân viên.
+        /// </summary>
+        public static string Validate_EmployeeCodeRequired {
+            get {
+                return ResourceManager.GetString("Validate_EmployeeCodeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cần cung cấp tên nhân viên.
+        /// </summary>
+        public static string Validate_EmployeeFullNameRequired {
+            get {
+                return ResourceManager.GetString("Validate_EmployeeFullNameRequired", resourceCulture);
             }
         }
         

@@ -13,7 +13,7 @@ namespace MISA.WebFresher032023.Practice.Controllers
 {
 
     [Microsoft.AspNetCore.Components.Route("api/v1/[controller]")]
-    public class DepartmentsController : BaseController<Department, DepartmentDTO, DepartmentUpdateDTO>
+    public class DepartmentsController : BaseController<Department, DepartmentDTO, DepartmentUpdateDTO, DepartmentCreateDTO>
     {
         #region Field
         private readonly string _connectionString; 

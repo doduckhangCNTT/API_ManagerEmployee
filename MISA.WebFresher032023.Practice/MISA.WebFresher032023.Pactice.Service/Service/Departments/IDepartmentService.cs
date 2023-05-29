@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.Service.Departments
 {
-    public interface IDepartmentService : IBaseService<Department, DepartmentDTO, DepartmentUpdateDTO>
+    public interface IDepartmentService : IBaseService<DepartmentDTO, DepartmentUpdateDTO, DepartmentCreateDTO>
     {
     }
 }

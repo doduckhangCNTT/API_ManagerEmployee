@@ -123,11 +123,29 @@
   <data name="Error_ValidateData" xml:space="preserve">
     <value>Dữ liệu đầu vào không hợp lệ</value>
   </data>
+  <data name="Gender_Femal" xml:space="preserve">
+    <value>Nữ</value>
+  </data>
+  <data name="Gender_Male" xml:space="preserve">
+    <value>Nam</value>
+  </data>
+  <data name="Gender_Other" xml:space="preserve">
+    <value>Không xác định</value>
+  </data>
   <data name="Notification_Delete_Success" xml:space="preserve">
     <value>Xóa nhân viên thành công</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
+  <data name="Validate_DepartmentCodeRequired" xml:space="preserve">
+    <value>Cần cung cấp mã phòng ban</value>
+  </data>
+  <data name="Validate_Email" xml:space="preserve">
+    <value>Email chưa đúng định dạng</value>
+  </data>
+  <data name="Validate_EmployeeCodeRequired" xml:space="preserve">
+    <value>Cần cung cấp mã nhân viên</value>
+  </data>
+  <data name="Validate_EmployeeFullNameRequired" xml:space="preserve">
+    <value>Cần cung cấp tên nhân viên</value>
   </data>
   <data name="Validate_EmployeeNotFound" xml:space="preserve">
     <value>Không tìm thấy nhân viên</value>

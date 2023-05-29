@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
 {
-    public interface IEmployeeService : IBaseService<Employee, EmployeeDto, EmployeeUpdateDto>
+    public interface IEmployeeService : IBaseService<EmployeeDto, EmployeeUpdateDto, EmployeeCreateDto>
     {
         Task<bool> CheckEmployeeCode(string employeeCode);
 

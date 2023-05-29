@@ -57,21 +57,61 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
                 using var sqlConnection = await GetOpenConnectionAsync();
 
                 // Lấy dữ liệu từ database
-                // 1. Câu lệnh truy vấn database
-                string sqlCommand = $"SELECT * FROM {tableName} WHERE {tableName}Id = @Id";
-                DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@Id", id);
+                //// === Cách 1: Sử dụng câu truy vấn ===
+                //// 1. Câu lệnh truy vấn database
+                //string sqlCommand = $"SELECT * FROM {tableName} WHERE {tableName}Id = @Id";
+                //DynamicParameters parameters = new DynamicParameters();
+                //parameters.Add("@Id", id);
 
-                // 2. Thực hiện lấy dữ liệu
-                var entity = await sqlConnection.QueryFirstOrDefaultAsync<TEntity>(sqlCommand, param: parameters);
+                //// 2. Thực hiện lấy dữ liệu
+                //var entity = await sqlConnection.QueryFirstOrDefaultAsync<TEntity>(sqlCommand, param: parameters);
 
+                // === Cách 2: Gọi Stored Procedure ===
+                // 1. Khởi tạo lệnh sql gọi đến Stored Procedure
+                string sqlCommandProc = "Proc_Get" + tableName + "ById";
+
+                // 2. Thực hiện thêm tham số cho proc
+                MySqlCommand command = new MySqlCommand(sqlCommandProc, (MySqlConnection?)sqlConnection);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue($"@m_{tableName}Id", id);
+
+                // 3. Thực thi proc
+                using MySqlDataReader reader = await command.ExecuteReaderAsync();
+
+                // Khởi tạo đối tượng chung TEntity
+                TEntity entity1 = Activator.CreateInstance<TEntity>();
+
+                // Sử dụng reflection để đặt giá trị cho các thuộc tính của TEntity từ dữ liệu đọc được từ Proc
+                PropertyInfo[] properties = typeof(TEntity).GetProperties();
+
+                while (reader.Read())
+                {
+                    for (int i = 0; i < properties.Length; i++)
+                    {
+                        // Lấy tên của thuộc tính
+                        PropertyInfo property = properties[i];
+                        string propertyName = property.Name;
+
+                        if(propertyName != "GenderName")
+                        {
+                            // Kiểm tra xem cột có tồn tại trong dữ liệu đọc được hay không
+                            int columnIndex = reader.GetOrdinal(propertyName);
+                            if (columnIndex >= 0 && !reader.IsDBNull(columnIndex))
+                            {
+                                object value = reader.GetValue(columnIndex);
+                                property.SetValue(entity1, value);
+                            }
+                        }
+                    }
+                }
+                // Đóng kết nối sql
                 await sqlConnection.CloseAsync();
                 // Trả về kết quả truy vấn cho client
-                return entity;
+                return await Task.FromResult(entity1);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new InternalException(ResourceVN.Error_Exception);
+                throw new InternalException(ex.Message);
             }
         }
 
@@ -117,6 +157,7 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
                     var paramName = parameter.ParameterName;
                     // Bỏ tiền tố "m_" trong tham số
                     var propName = paramName.Replace("@m_", "");
+                    // Lấy thuộc tính theo tên trong entity -> kiểm sự tồn tại của thuộc tính trong entity đó
                     var entityProperty = entity?.GetType().GetProperty(propName);
                     if (entityProperty != null)
                     {
@@ -181,8 +222,8 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
                     }
                 }
                 // Lấy số lượng bản ghi được cập nhật
-                var res = mySqlConnection.Execute(sql: sqlCommandProc, param: dynamicParam, commandType: System.Data.CommandType.StoredProcedure);
-                return await Task.FromResult(res);
+                var result = mySqlConnection.Execute(sql: sqlCommandProc, param: dynamicParam, commandType: System.Data.CommandType.StoredProcedure);
+                return await Task.FromResult(result);
             }
             catch (Exception ex)
             {
@@ -203,11 +244,24 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
             // Khởi tạo kết nối với MariaDb
             using var sqlConnection = await GetOpenConnectionAsync();
 
-            // Thực hiện xóa
-            string sqlCommandDelete = $"DELETE FROM {tableName} WHERE {tableName}Id = '{id}'";
-            
-            // Thực hiện chạy sql
-            int result = await sqlConnection.ExecuteAsync(sqlCommandDelete);
+            //// === Cách 1: Sử dụng truy vấn 
+            //// Thực hiện xóa
+            //string sqlCommandDelete = $"DELETE FROM {tableName} WHERE {tableName}Id = '{id}'";
+            //// Thực hiện chạy sql
+            //int result = await sqlConnection.ExecuteAsync(sqlCommandDelete);
+
+            // === Cách 2: Sử dụng Proc
+            // 1. Khởi tạo lệnh sql gọi đến Stored Procedure
+            string sqlCommandProc = "Proc_Delete" + tableName + "ById";
+
+            // 2. Thực hiện thêm tham số cho proc
+            MySqlCommand command = new MySqlCommand(sqlCommandProc, (MySqlConnection?)sqlConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue($"@m_{tableName}Id", id);
+
+            // 3. Thực thi proc
+            int result = await command.ExecuteNonQueryAsync();
+
             // Đóng kết nối db
             await sqlConnection.CloseAsync();
             // Trả về số bản ghi xóa
@@ -281,7 +335,7 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
                             /* Vì trường GenderName không không là thuộc tính trong database mà chỉ là trường bổ sung thêm 
                              * - Việc kiểm tra thuộc tính "GenderName" là bởi giá trị trả về từ Proc không có trường đó -> không lấy ra được "columnIndex"
                              * */
-                            if(propertyName != "GenderName")
+                            if (propertyName != "GenderName")
                             {
                                 // Kiểm tra xem cột có tồn tại trong dữ liệu đọc được từ Proc hay không
                                 int columnIndex = reader.GetOrdinal(propertyName);
@@ -338,7 +392,7 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
         /// <returns>String</returns>
         /// <exception cref="InternalException"></exception>
         /// Created By: DDKhang (24/5/2023)
-        public async Task<string> NewEntityCode()
+        public virtual async Task<string> NewEntityCode()
         {
             try
             {
@@ -360,7 +414,6 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
 
                 string newEntityCode = command.Parameters["@newCode"].Value?.ToString() ?? "";
 
-
                 // Đóng kết nối db
                 await sqlConnection.CloseAsync();
                 return newEntityCode;
@@ -369,6 +422,61 @@ namespace MISA.WebFresher032023.Practice.DL.Repository.Bases
             {
                 throw new InternalException(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// - Thực hiện kiểm tra sự tồn tại của thực thể
+        /// </summary>
+        /// <param name="entityId">Mã thực thể</param>
+        /// <returns>TEntity</returns>
+        /// CreatedBy: DDKhang (27/5/2023)
+        public virtual async Task<TEntity> CheckEntityExist(Guid entityId)
+        {
+            // Lấy tên của thực thể
+            string tableName = typeof(TEntity).Name;
+            // Khởi tạo kết nối với MariaDb
+            using var sqlConnection = await GetOpenConnectionAsync();
+
+            // Kiểm tra nhân viên có tồn tại
+            // 1. Câu lệnh truy vấn database
+            string sqlCommand = $"SELECT * FROM {tableName} WHERE {tableName}Id = @{tableName}Id";
+            DynamicParameters parameters = new DynamicParameters();
+            parameters.Add($"@{tableName}Id", entityId);
+            // 2. Thực hiện lấy dữ liệu
+            TEntity entity = sqlConnection.QueryFirstOrDefault<TEntity>(sqlCommand, param: parameters);
+
+            return entity;
+        }
+
+        /// <summary>
+        /// - Xóa nhiều bản ghi
+        /// </summary>
+        /// <param name="listEntityId">Danh sách mã bản ghi được nối bằng ","</param>
+        /// <returns>Số bản ghi được xóa</returns>
+        /// CreatedBy: DDKhang (27/5/2023)
+        public virtual async Task<int> DeleteMutilEntityAsync(string listEntityId)
+        {
+            StringBuilder formatString = new StringBuilder();
+            List<string> listId = listEntityId.Split(',').Select(s => s.Trim()).ToList();
+            formatString = formatString.Append(string.Join(",", listId));
+            string formatResult = formatString.ToString();
+
+
+            // Lấy tên của entity
+            string tableName = typeof(TEntity).Name;
+            // Khởi tạo kết nối với MariaDb
+            using var sqlConnection = await GetOpenConnectionAsync();
+
+            // Khởi tạo lệnh sql
+            string sqlCommandProc = "Proc_Delete" + tableName + "MultiById";
+
+            MySqlCommand command = new MySqlCommand(sqlCommandProc, (MySqlConnection?)sqlConnection);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.AddWithValue($"@m_List{tableName}Id", formatResult.Trim());
+            // Thực thi proc
+            int result = await command.ExecuteNonQueryAsync();
+
+            return result;
         }
     }
 }

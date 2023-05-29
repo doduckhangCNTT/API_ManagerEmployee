@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.Service.Departments
 {
-    public class DepartmentService : BaseService<Department, DepartmentDTO, DepartmentUpdateDTO>, IDepartmentService
+    public class DepartmentService : BaseService<Department, DepartmentDTO, DepartmentUpdateDTO, DepartmentCreateDTO>, IDepartmentService
     {
         #region Constructor
         public DepartmentService(IDepartmentRepository departmentRepository, IMapper mapper) : base(departmentRepository, mapper)
