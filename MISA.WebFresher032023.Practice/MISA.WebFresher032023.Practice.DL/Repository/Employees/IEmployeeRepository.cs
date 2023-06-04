@@ -10,6 +10,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Practice.DL.Repository.Employees
 {
+    /// <summary>
+    /// - Interface nhân viên chứa các giao diện phương thức chung và riêng
+    /// </summary>
+    /// CreateBy: DDKhang (3/6/2023)
     public interface IEmployeeRepository : IBaseRepository<Employee>
     {
         Task<bool> CheckEmployeeCode(string employeeCode);

@@ -1,4 +1,5 @@
 ﻿using MISA.WebFresher032023.Practice.Common.Enum;
+using MISA.WebFresher032023.Practice.Common.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Practice.DL.Entity
 {
+    /// <summary>
+    /// - Lớp nhân viên, chứa các thuộc tính của nhân viên
+    /// </summary>
+    /// Created By: DDKhang (24/5/2023)
     public class Employee : BaseEntity
     {
         /// <summary>
@@ -51,11 +56,12 @@ namespace MISA.WebFresher032023.Practice.DL.Entity
                 switch (Gender)
                 {
                     case (int)GenderEnum.Male:
-                        return "Nam";
+                        //return "Nam";
+                        return ResourceVN.Gender_Male;
                     case (int)GenderEnum.Female:
-                        return "Nữ";
+                        return ResourceVN.Gender_Femal;
                     default:
-                        return "Không xác định";
+                        return ResourceVN.Gender_Other;
                 }
             }
         }
@@ -65,6 +71,12 @@ namespace MISA.WebFresher032023.Practice.DL.Entity
         /// </summary>
         /// Created By: DDKhang (24/5/2023)
         public string? Email { get; set; }
+
+        /// <summary>
+        /// - Địa chỉ
+        /// </summary>
+        /// Created By: DDKhang (24/5/2023)
+        public string? Address { get; set; }
 
         /// <summary>
         /// Số điện thoại

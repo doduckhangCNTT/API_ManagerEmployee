@@ -13,6 +13,14 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
 {
+    /// <summary>
+    /// - Tầng dịch vụ chung, sử dụng để xử lí logic gọi lên tầng repository
+    /// </summary>
+    /// <typeparam name="TEntity">Lớp thực thể</typeparam>
+    /// <typeparam name="TEntityDto">Lớp thực thể truyền tải</typeparam>
+    /// <typeparam name="TEntityUpdateDto">Lớp thực thể cập nhật truyền tải</typeparam>
+    /// <typeparam name="TEntityCreateDto">Lớp thực thể tạo truyền tải</typeparam>
+    /// CreatedBy: DDKhang (24/5/2023)
     public abstract class BaseService<TEntity, TEntityDto, TEntityUpdateDto, TEntityCreateDto> : IBaseService<TEntityDto, TEntityUpdateDto, TEntityCreateDto>
     {
         #region Field
@@ -38,9 +46,6 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Bases
         /// Create By: DDKhang (24/5/2023)
         public virtual async Task<int> CreateAsync(TEntityCreateDto entity)
         {
-            // Validate:
-            // - Kiểm tra có trùng id
-
             // - Kiểm tra các dữ liệu khác có đúng định dạng không
             var entityCreate = _mapper.Map<TEntity>(entity);
             int qualityRecordAdd = await _baseRepository.CreateAsync(entityCreate);

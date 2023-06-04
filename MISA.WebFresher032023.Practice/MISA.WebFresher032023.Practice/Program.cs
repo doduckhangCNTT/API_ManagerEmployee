@@ -1,5 +1,7 @@
-﻿using MISA.WebFresher032023.Pactice.BL.Service.Departments;
+﻿using MISA.WebFresher032023.Pactice.BL.Service.Banks;
+using MISA.WebFresher032023.Pactice.BL.Service.Departments;
 using MISA.WebFresher032023.Pactice.BL.Service.Employees;
+using MISA.WebFresher032023.Practice.DL.Repository.Banks;
 using MISA.WebFresher032023.Practice.DL.Repository.Departments;
 using MISA.WebFresher032023.Practice.DL.Repository.Employees;
 using MISA.WebFresher032023.Practice.Middlewares;
@@ -25,10 +27,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
  - Khi mà mình có gọi những cái Repository này ở các tầng nào khác (Controller, BL, DL) thì đều chỉ khởi tạo 1 instant
  */
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
+builder.Services.AddScoped<IBankRepository, BankRepository>();
+builder.Services.AddScoped<IBankService, BankService>();
 
 var app = builder.Build();
 

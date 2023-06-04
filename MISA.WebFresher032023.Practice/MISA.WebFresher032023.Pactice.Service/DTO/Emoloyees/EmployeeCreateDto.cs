@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace MISA.WebFresher032023.Pactice.BL.DTO.Emoloyees
 {
+    /// <summary>
+    /// - Lớp nhân viên chuyển dữ liệu tạo
+    /// </summary>
+    /// CreatedBy: DDKhang (24/5/2023)
     public class EmployeeCreateDto
     {
         /// <summary>
@@ -69,6 +73,12 @@ namespace MISA.WebFresher032023.Pactice.BL.DTO.Emoloyees
         /// Created By: DDKhang (24/5/2023)
         [RegularExpression(@"^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$", ErrorMessageResourceType = typeof(ResourceVN), ErrorMessageResourceName = "Validate_Email")]
         public string? Email { get; set; }
+
+        /// <summary>
+        /// - Địa chỉ
+        /// </summary>
+        /// Created By: DDKhang (24/5/2023)
+        public string? Address { get; set; }
 
         /// <summary>
         /// Số điện thoại

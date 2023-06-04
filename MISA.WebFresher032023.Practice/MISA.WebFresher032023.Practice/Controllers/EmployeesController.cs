@@ -6,7 +6,12 @@ using MISA.WebFresher032023.Practice.Common.Enum;
 using MISA.WebFresher032023.Practice.Common.Resources;
 using MISA.WebFresher032023.Practice.DL.Entity;
 using MySqlConnector;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
 using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -60,70 +65,70 @@ namespace MISA.WebFresher032023.Practice.Controllers
         /// <param name="employeeId"></param>
         /// <returns>Employee</returns>
         /// Created By: DDKhang (24/5/2023)
-        private Employee CheckEmployeeExist(Guid employeeId)
-        {
-            // Kiểm tra nhân viên có tồn tại
-            using var sqlConnection = new MySqlConnection(_connectionString);
-            // 1. Câu lệnh truy vấn database
-            string sqlCommand = $"SELECT * FROM employee WHERE EmployeeId = @EmployeeId";
-            DynamicParameters parameters = new DynamicParameters();
-            parameters.Add("@EmployeeId", employeeId);
-            // 2. Thực hiện lấy dữ liệu
-            Employee employee = sqlConnection.QueryFirstOrDefault<Employee>(sqlCommand, param: parameters);
+        //private Employee CheckEmployeeExist(Guid employeeId)
+        //{
+        //    // Kiểm tra nhân viên có tồn tại
+        //    using var sqlConnection = new MySqlConnection(_connectionString);
+        //    // 1. Câu lệnh truy vấn database
+        //    string sqlCommand = $"SELECT * FROM employee WHERE EmployeeId = @EmployeeId";
+        //    DynamicParameters parameters = new DynamicParameters();
+        //    parameters.Add("@EmployeeId", employeeId);
+        //    // 2. Thực hiện lấy dữ liệu
+        //    Employee employee = sqlConnection.QueryFirstOrDefault<Employee>(sqlCommand, param: parameters);
 
-            return employee;
-        }
+        //    return employee;
+        //}
 
         /// <summary>
         /// - Kiểm tra trùng mã nhân viên code
         /// </summary>
         /// <param name="employeeCode"></param>
         /// <returns></returns>
-        private Employee CheckDuplicateEmployeeCode(string employeeCode)
-        {
-            return new Employee();
+        //private Employee CheckDuplicateEmployeeCode(string employeeCode)
+        //{
+        //    return new Employee();
 
-            //using var sqlConnection = new MySqlConnection(_connectionString);
-            //string sqlCommand = $"SELECT * FROM employee WHERE EmployeeCode = @EmployeeCode";
-            //DynamicParameters parameters = new DynamicParameters();
-            //parameters.Add("@EmployeeCode", employeeCode);
-            //// 2. Thực hiện lấy dữ liệu
-            //Employee employee = sqlConnection.QueryFirstOrDefault<Employee>(sqlCommand, param: parameters);
+        //    //using var sqlConnection = new MySqlConnection(_connectionString);
+        //    //string sqlCommand = $"SELECT * FROM employee WHERE EmployeeCode = @EmployeeCode";
+        //    //DynamicParameters parameters = new DynamicParameters();
+        //    //parameters.Add("@EmployeeCode", employeeCode);
+        //    //// 2. Thực hiện lấy dữ liệu
+        //    //Employee employee = sqlConnection.QueryFirstOrDefault<Employee>(sqlCommand, param: parameters);
 
-            //return employee;
-        }
+        //    //return employee;
+        //}
         #endregion
 
-        string connectionString = "Host=localhost; Port=3306; Database =misa.web202303_mf1622_ddkhang; User Id=root; Password=4568527931ab";
+        string connectionString = "Server = localhost; Port=3306; Database =misa.web202303_mf1622_ddkhang; Uid=root; Pwd=4568527931ab;Allow User Variables=True;";
 
         /// <summary>
         /// - Thực hiện lấy toàn bộ thông tin nhân viên
         /// </summary>
         /// <returns></returns>
         /// Created By: DDKhang (24/5/2023)
-        [HttpGet]
-        public async Task<IEnumerable<Employee>> GetEmployees()
-        {
-            return await Task.FromResult(new List<Employee>());
-            //try
-            //{
-            //    // Khởi tạo kết nối với MariaDb
-            //    //using var sqlConnection = new MySqlConnection(connectionString);
-            //    using var sqlConnection = new MySqlConnection(_connectionString);
-            //    // Lấy dữ liệu từ database
-            //    // 1. Câu lệnh truy vấn database
-            //    string sqlCommand = "SELECT * FROM employee ORDER BY CreatedDate DESC";
-            //    // 2. Thực hiện lấy dữ liệu
-            //    var employees = sqlConnection.Query<Employee>(sqlCommand);
+        //[HttpGet]
+        //public async Task<IEnumerable<Employee>> GetEmployees()
+        //{
+        //    return await Task.FromResult(new List<Employee>());
+        //    //try
+        //    //{
+        //    //    // Khởi tạo kết nối với MariaDb
+        //    //    //using var sqlConnection = new MySqlConnection(connectionString);
+        //    //    using var sqlConnection = new MySqlConnection(_connectionString);
+        //    //    // Lấy dữ liệu từ database
+        //    //    // 1. Câu lệnh truy vấn database
+        //    //    string sqlCommand = "SELECT * FROM employee ORDER BY CreatedDate DESC";
+        //    //    // 2. Thực hiện lấy dữ liệu
+        //    //    var employees = sqlConnection.Query<Employee>(sqlCommand);
 
-            //    // Trả về kết quả truy vấn cho client
-            //    return Ok(employees);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return HandleException(ex, ResourceVN.Error_Exception);
-            //}
-        }
+        //    //    // Trả về kết quả truy vấn cho client
+        //    //    return Ok(employees);
+        //    //}
+        //    //catch (Exception ex)
+        //    //{
+        //    //    return HandleException(ex, ResourceVN.Error_Exception);
+        //    //}
+        //}
 
         /// <summary>
         /// - Thực hiện lấy thông tin nhân viên theo id
@@ -443,5 +448,115 @@ namespace MISA.WebFresher032023.Practice.Controllers
         //    //    return HandleException(ex, ResourceVN.Error_Exception);
         //    //}
         //}
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportToExcel()
+        {
+            using (var connection = new MySqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                string query = $@"
+                    SELECT  EmployeeCode, FullName, Gender, DateOfBirth, d.DepartmentName 
+                    FROM Employee e
+                    LEFT JOIN Department d on e.DepartmentId = d.DepartmentId
+                    ";
+                var data = connection.Query<Employee>(query).ToList();
+
+                // Tiêu đề cột
+                var columnHeaders = new string[] { "STT", "Mã nhân viên", "Tên nhân viên", "Giới tính", "Ngày sinh", "Chức danh", "Tên đơn vị", "Số tài khoản", "Tên ngân hàng" };
+
+                // Tạo một file Excel mới
+                using (var package = new ExcelPackage())
+                {
+                    // Tạo một worksheet mới
+                    var worksheet = package.Workbook.Worksheets.Add("Sheet 1");
+
+                    // Tiêu đề bảng
+                    worksheet.Cells["A1:I1"].Merge = true;
+                    worksheet.Cells["A1:I1"].Value = "DANH SÁCH NHÂN VIÊN";
+                    worksheet.Cells["A1:I1"].Style.Font.Bold = true;
+                    worksheet.Cells["A1:I1"].Style.Font.Size = 16;
+
+                    // // Xét Fill cho dòng
+                    //worksheet.Cells["A1:I1"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    // // Không xét Fill cho dòng
+                    //worksheet.Cells["A1:I1"].Style.Fill.PatternType = ExcelFillStyle.None;
+
+                    //worksheet.Cells["A1:I1"].Style.Fill.BackgroundColor.SetColor(Color.White);
+                    //worksheet.Cells["A1:I1"].Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    worksheet.Cells["A1:I1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                    // Tiêu đề cột
+                    for (int i = 0; i < columnHeaders.Length; i++)
+                    {
+                        var columnHeaderCell = worksheet.Cells[3, i + 1];
+                        columnHeaderCell.Value = columnHeaders[i];
+                        columnHeaderCell.Style.Font.Bold = true;
+                        columnHeaderCell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                        columnHeaderCell.Style.Fill.SetBackground(Color.LightGray);
+                        columnHeaderCell.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                    }
+
+                    // Dữ liệu bảng
+                    for (int i = 0; i < data.Count; i++)
+                    {
+                        string genderName = "";
+                        string dateOfBirth = "";
+
+                        if(data[i].DateOfBirth != null)
+                        {
+                            DateTime inputDate = (DateTime)data[i].DateOfBirth;
+                            string formattedDate = inputDate.ToString("M/d/yyyy");
+                            dateOfBirth = formattedDate;
+
+                        }
+                        switch (data[i].Gender)
+                        {
+                            case 0:
+                                genderName = ResourceVN.Gender_Male;
+                                break;
+                            case 1:
+                                genderName = ResourceVN.Gender_Femal;
+                                break;
+                            default:
+                                genderName = ResourceVN.Gender_Other;
+                                break;
+                        }
+
+                        var rowData = new string[] {(i+1).ToString(), data[i].EmployeeCode.ToString(), data[i].FullName, genderName, dateOfBirth, "", "", "", "" };
+                        for (int j = 0; j < rowData.Length; j++)
+                        {
+                            var cell = worksheet.Cells[i + 4, j + 1];
+                            cell.Value = rowData[j];
+                            cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+
+                            // Căn chỉnh độ rộng cột dựa trên độ dài dữ liệu
+                            worksheet.Column(j + 1).AutoFit();
+
+                            //// Đặt màu cho ô
+                            //if (i % 2 == 0)
+                            //{
+                            //    cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                            //    cell.Style.Fill.BackgroundColor.SetColor(Color.LightGray);
+                            //}
+
+                            // Thêm border cho ô
+                            cell.Style.Border.BorderAround(ExcelBorderStyle.Thin, Color.Black);
+                        }
+                        // Thêm kẻ dòng
+                        //worksheet.Row(i + 4).Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+                        //worksheet.Row(i + 4).Style.Border.Bottom.Color.SetColor(Color.Black);
+                    }
+
+                    // Merge cột STT
+                    //worksheet.Cells["A4:A" + (data.Count + 3)].Merge = true;
+
+                    // Trả về file Excel
+                    var stream = new MemoryStream(package.GetAsByteArray());
+                    return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "export.xlsx");
+                }
+
+            }
+        }
     }
 }

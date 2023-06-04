@@ -27,6 +27,12 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// - Hàm khởi tạo thực hiện gọi lên hàm khởi tạo lớp cha
+        /// </summary>
+        /// <param name="employeeRepository"></param>
+        /// <param name="mapper"></param>
+        /// CreatedBy: DDKhang (23/5/2023)
         public EmployeeService(IEmployeeRepository employeeRepository, IMapper mapper) : base(employeeRepository, mapper)
         {
             //_employeeRepository = employeeRepository;
@@ -34,11 +40,25 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
         }
         #endregion
 
+        /// <summary>
+        /// - Thực hiện kiểm tra mã code employee có tồn tại
+        /// </summary>
+        /// <param name="employeeCode"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        /// CreatedBy: DDKhang (23/5/2023)
         public Task<bool> CheckEmployeeCode(string employeeCode)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// - Thực hiện tạo 
+        /// </summary>
+        /// <param name="employeeDTO"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        /// CreatedBy: DDKhang (23/5/2023)
         public Task<EmployeeDto> CreateAsync(EmployeeCreateDto employeeDTO)
         {
             throw new NotImplementedException();
@@ -87,6 +107,14 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
         //    return _mapper.Map<EmployeeDto>(employee);
         //}
 
+        /// <summary>
+        /// - Thực hiện xóa theo id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <exception cref="NotFoundException"></exception>
+        /// <exception cref="Exception"></exception>
+        /// CreatedBy: DDKhang (23/5/2023)
         public override async Task DeleteTaskAsync(Guid id)
         {
             // Kiểm tra thực thể có tồn tại
@@ -106,5 +134,7 @@ namespace MISA.WebFresher032023.Pactice.BL.Service.Employees
             // Thực hiện xóa
             await _baseRepository.DeleteAsync(id);
         }
+
+
     }
 }
